@@ -3,8 +3,8 @@ var request = Promise.promisify(require('request'))
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/'
 var api = {
-    accessToken: prefix + 'token?grant_type=client_credential'
-    upload:prefix+ 'media/upload?'
+    accessToken: prefix + 'token?grant_type=client_credential',
+    upload: prefix + 'media/upload?'
 }
 
 
@@ -49,10 +49,10 @@ Wechat.prototype.isValidAccessToken = function (data) {
     }
 }
 
-Wechat.prototype.fetchAccessToken = function(data){
+Wechat.prototype.fetchAccessToken = function (data) {
     var that = this
-    if(this.access_token && this.expires_in){
-        if(this.isValidAccessToken(this)){
+    if (this.access_token && this.expires_in) {
+        if (this.isValidAccessToken(this)) {
             return Promise.resolve(this)
         }
     }
@@ -94,7 +94,7 @@ Wechat.prototype.updateAccessToken = function () {
 
 }
 
-Wechat.prototype.uploadMaterial = function (type,filepath) {
+Wechat.prototype.uploadMaterial = function (type, filepath) {
     var that = this
     var form = {
         media: fs.createReadStrean(filepath)
@@ -104,20 +104,20 @@ Wechat.prototype.uploadMaterial = function (type,filepath) {
     var appSecret = this.appSecret
     var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret
     return new Promise(function (resolve, reject) {
-        that.fetchAccessToken().then(data=>{
-            var url = api.upload+'access_token='+data.access_token + 'type='+type
-            request({ method:'POST' url: url, formData:from,json: true }).then(function (res) {
+        that.fetchAccessToken().then(data => {
+            var url = api.upload + 'access_token=' + data.access_token + 'type=' + type
+            request({ method: 'POST' url: url, formData: from, json: true }).then(function (res) {
                 var _data = res
-                if(_data){
+                if (_data) {
                     resolve(_data)
                 }
             })
-        }).catch(err=>{
+        }).catch(err => {
             reject(err)
         })
-       
+
     })
 
 
 }
-module.exports =  Wechat
+module.exports = Wechat
