@@ -1,7 +1,9 @@
 var createXML = require('./createXML');
+var config = require('../config/config')
+var Wechat = require('./wechat')
+var wechatApi = new Wechat(config)
 
 function autoReply(message,ctx) {
-    console.log(message)
     if (message.MsgType[0] === 'event') {
         if (message.Event[0] === 'subscribe') {
             if (message.EventKey[0]) {
@@ -71,6 +73,17 @@ function autoReply(message,ctx) {
             });
             ctx.body = xml
             return
+        }else if(content==='5'){
+            wechatApi.uploadMaterial('image',__dirname+'../assets/pic_1.jepg').then(res=>{
+                const xml = createXML({
+                    ToUserName: message.FromUserName[0],
+                    FromUserName: message.ToUserName[0],
+                    MsgType: 'image',
+                    MediaId:res.media_id
+                })
+                ctx.body = xml
+                return
+            })
         }else {
             reply = content
         }
