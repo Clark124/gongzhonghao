@@ -57,6 +57,22 @@ function autoReply(message,ctx) {
             reply = '心里烦啊'
         }else if(content=='2'){
             reply = '来学前端'
+        }else if(content=='4'){
+            const xml =  createXML({
+                ToUserName: message.FromUserName[0],
+                FromUserName: message.ToUserName[0],
+                MsgType: 'news',
+                Articles: [{
+                    Title:'桃宝宝大笨蛋',
+                    Description:"喵喵喵",
+                    PicUrl:"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1547703696&di=8bbec953e0eae548c42ac642ab4807f8&src=http://n.sinaimg.cn/sinacn/w593h542/20180112/7344-fyqnicm1574844.jpg",
+                    Url:"http://www.baidu.com"
+                }]
+            });
+            ctx.body = xml
+            return
+        }else {
+            reply = content
         }
         const xml =  createXML({
             ToUserName: message.FromUserName[0],
