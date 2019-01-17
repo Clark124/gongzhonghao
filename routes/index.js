@@ -17,6 +17,7 @@ router.get('/', async (ctx, next) => {
 
 router.post('/', async (ctx, next) => {
   const xml = ctx.request.body.xml;
+  console.log(xml)
   autoReply(xml, ctx)
   // const msgType = xml.xml.MsgType[0];
   // const toUserName = xml.xml.ToUserName[0];
