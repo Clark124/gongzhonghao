@@ -98,20 +98,19 @@ Wechat.prototype.updateAccessToken = function () {
 Wechat.prototype.uploadMaterial = function (type, filepath) {
     var that = this
     var form = {
-        media: fs.createReadStrean(filepath)
+        media: fs.createReadStream(filepath)
     }
 
-    var appID = this.appID
-    var appSecret = this.appSecret
-    var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret
     return new Promise(function (resolve, reject) {
         that.fetchAccessToken().then(data => {
-            var url = api.upload + 'access_token=' + data.access_token + 'type=' + type
-            request({ method: 'POST', url: url, formData: from, json: true }).then(function (res) {
-                var _data = res
+            var url = api.upload + 'access_token=' + data.access_token + '&type=' + type
+            request({ method: 'POST', url: url, formData: form, json: true }).then(function (res) {
+                var _data = res.body
                 if (_data) {
                     resolve(_data)
                 }
+            }).catch(err=>{
+                console.log(err)
             })
         }).catch(err => {
             reject(err)
