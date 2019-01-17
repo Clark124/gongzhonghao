@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const sha1 = require('sha1')
 const config = require('../config/config')
-const autoReply = require('../wechat/createXML')
+const autoReply = require('../wechat/autoReply')
 
 router.get('/', async (ctx, next) => {
   const token = config.token
@@ -16,13 +16,15 @@ router.get('/', async (ctx, next) => {
 })
 
 router.post('/', async (ctx, next) => {
-  const xml = ctx.request.body.xml;
-  autoReply(xml, ctx)
+  const xml = ctx.request.body;
+  // console.log(xml)
+  autoReply(xml.xml, ctx)
   // const msgType = xml.xml.MsgType[0];
   // const toUserName = xml.xml.ToUserName[0];
   // const toFromName = xml.xml.FromUserName[0];
   // const event = xml.xml.Event ? xml.xml.Event[0] : '';
   // const content = xml.xml.Content ? xml.xml.Content[0] : '';
+  // const createTime = new Date().getTime();
   // if (msgType == 'event' && event == 'subscribe') { //关注后
   //   ctx.body = `<xml>
   // 	 <ToUserName><![CDATA[${toFromName}]]></ToUserName>
