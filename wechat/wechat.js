@@ -74,7 +74,7 @@ Wechat.prototype.fetchAccessToken = function (data) {
         that.expires_in = data.expires_in
         that.saveAccessToken(data)
     })
-    return Promise.resolve(datta)
+    return Promise.resolve(data)
 }
 
 Wechat.prototype.updateAccessToken = function () {
